@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'; import Stripe from 'stripe'; import { Pool } from 'pg';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-04-10' }); const db = new Pool({ connectionString: process.env.DATABASE_URL });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2024-04-10' }); 
+const db = new Pool({ connectionString: process.env.DATABASE_URL || '' });
 
 // Map your real Stripe Price IDs → plan config 
 const PRICE_MAP: Record<string, { plan: string; inspections_limit: number | null }> = { 
